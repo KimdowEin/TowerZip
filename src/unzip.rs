@@ -5,7 +5,9 @@ use clap::{command, Parser};
 mod decompress;
 
 #[derive(Parser)]
-#[command(about="解压", long_about = None)]
+#[command(version = "1.0.0",about="进行文件解压",)]
+#[command(long_about = "对文件进行多次解压直到不包含压缩包(回避jar,apk等特殊文件格式)")]
+
 pub struct UnZipCli {
     ///要解压的文件的路径
     input: PathBuf,
