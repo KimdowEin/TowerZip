@@ -1,11 +1,11 @@
-use std::{collections::VecDeque, fmt::Display, fs, io::Read, path::PathBuf};
+use std::{collections::VecDeque, fmt::Display, fs, io::{self, Read}, path::PathBuf};
 
 use clap::{command, Parser};
 
 mod decompress;
 
 #[derive(Parser)]
-#[command(version = "1.0.0",about="进行文件解压",)]
+#[command(about="进行文件解压",)]
 #[command(long_about = "对文件进行多次解压直到不包含压缩包(回避jar,apk等特殊文件格式)")]
 
 pub struct UnZipCli {
@@ -150,6 +150,16 @@ impl Display for Task {
 
 fn task_list_init(cli: UnZipCli) -> VecDeque<Task> {
     let output_root = if let Some(output) = cli.output {
+        if !output.exists(){
+            println!("output path not exist, create it or not [y/n]");
+            let mut input = String::new();
+            io::stdin().read_line(&mut input).unwrap();
+            if input.trim().starts_with('y'){
+                fs::create_dir_all(&output).unwrap();
+            }else {
+                panic!("output path not exist");
+            }
+        }
         output
     } else {
         PathBuf::from("./")
@@ -157,7 +167,7 @@ fn task_list_init(cli: UnZipCli) -> VecDeque<Task> {
     let input_root = cli.input;
 
     //初始化任务列表
-    let mut task_list: VecDeque<Task> = VecDeque::new();
+    let mut task_list = VecDeque::new();
     let walk = walkdir::WalkDir::new(&input_root);
 
     for entry in walk {

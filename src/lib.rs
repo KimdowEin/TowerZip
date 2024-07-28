@@ -3,7 +3,7 @@ mod unzip;
 mod enzip;
 
 #[derive(Parser)]
-#[command(name = "TowerZip",author = "zhyimg@163.com", version = "0.7.0")]
+#[command(name = "TowerZip",author = "zhyimg@163.com", version = "0.7.1")]
 #[command(about="一个多次解压||压缩的工具", long_about = None)]
 pub struct Cli {
     #[command(subcommand)]

@@ -7,7 +7,8 @@ use compress::Zipper;
 
 
 #[derive(Parser)]
-#[command(about = "进行文件压缩", long_about = "对文件或文件夹进行单次压缩")]
+#[command(about = "进行文件压缩")]
+#[command(long_about = "对文件或文件夹进行单次压缩")]
 pub struct ZipCli {
     /// 压缩文件或目录
     input: PathBuf,
